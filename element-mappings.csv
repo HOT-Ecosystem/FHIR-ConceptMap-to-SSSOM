@@ -1,0 +1,100 @@
+http://hl7.org/fhir/5.0.0-snapshot1/conceptmap2.html									Continuous build Spec: 24Feb22								
+Name	Flags	Card.	Type	Description & Constraints	FHIR Expression	SSSOM			http://build.fhir.org/conceptmap2.html								
+.. ConceptMap2	TU		CanonicalResource	A map from one set of concepts to one or more other concepts					Name	Flags	Card.	Type	Description & Constraints				
+				+ Warning: Name should be usable as an identifier for the module by machine processing applications such as code generation					ConceptMap2	TU		CanonicalResource	"A map from one set of concepts to one or more other concepts
++ Warning: Name should be usable as an identifier for the module by machine processing applications such as code generation
+Elements defined in Ancestors: id, meta, implicitRules, language, text, contained, extension, modifierExtension, url, identifier, version, name, title, status, experimental, date, publisher, contact, description, useContext, jurisdiction, purpose, copyright"				
+				"Elements defined in Ancestors: id, meta, implicitRules, language, text, contained, extension, modifierExtension, url, identifier, version, name, title, status, experimental, date, publisher, contact, description, useContext, jurisdiction, purpose, copyright"													
+... url	_	0..1	uri	"Canonical identifier for this concept map, represented as a URI (globally unique)"					url	_	0..1	uri	"Canonical identifier for this concept map, represented as a URI (globally unique)"				
+... identifier	_	0..*	Identifier	Additional identifier for the concept map		predicate_id			identifier	_	0..*	Identifier	Additional identifier for the concept map				
+... version	_	0..1	string	Business version of the concept map	ConceptMap2.version	mapping_set_version			version	_	0..1	string	Business version of the concept map				
+... name	_I	0..1	string	Name for this concept map (computer friendly)					name	_I	0..1	string	Name for this concept map (computer friendly)				
+... title	_	0..1	string	Name for this concept map (human friendly)					title	_	0..1	string	Name for this concept map (human friendly)				
+... status	?!_	1..1	code	draft | active | retired | unknown					status	?!_	1..1	code	"draft | active | retired | unknown
+PublicationStatus (Required)"				
+				PublicationStatus (Required)													
+... experimental	_	0..1	boolean	"For testing purposes, not real usage"					experimental	_	0..1	boolean	"For testing purposes, not real usage"				
+... date	_	0..1	dateTime	Date last changed		mapping_date (different date definition)			date	_	0..1	dateTime	Date last changed				
+... publisher	_	0..1	string	Name of the publisher (organization or individual)		creator_label			publisher	_	0..1	string	Name of the publisher (organization or individual)				
+... contact	_	0..*	ContactDetail	Contact details for the publisher					contact	_	0..*	ContactDetail	Contact details for the publisher				
+... description		0..1	markdown	Natural language description of the concept map					description		0..1	markdown	Natural language description of the concept map				
+... useContext	_	0..*	UsageContext	The context that the content is intended to support					useContext	_	0..*	UsageContext	The context that the content is intended to support				
+... jurisdiction	_	0..*	CodeableConcept	Intended jurisdiction for concept map (if applicable)					jurisdiction	_	0..*	CodeableConcept	"Intended jurisdiction for concept map (if applicable)
+Jurisdiction (Extensible)"				
+				Jurisdiction (Extensible)													
+... purpose		0..1	markdown	Why this concept map is defined					purpose		0..1	markdown	Why this concept map is defined				
+... copyright		0..1	markdown	Use and/or publishing restrictions		license 			copyright		0..1	markdown	Use and/or publishing restrictions				
+... source[x]	_	0..1		The source value set that contains the concepts that are being mapped		subject_category			source[x]	_	0..1		The source value set that contains the concepts that are being mapped				
+.... sourceUri			uri			subject_source			sourceUri			uri					
+.... sourceCanonical			canonical(ValueSet)			subject_source			sourceCanonical			canonical(ValueSet)					
+... target[x]	_	0..1		The target value set which provides context for the mappings		object_category 			target[x]	_	0..1		The target value set which provides context for the mappings				
+.... targetUri			uri		ConceptMap2.target.targeturi	object_source			targetUri			uri					
+																	
+... group		0..*	BackboneElement	Same source and target systems	.... targetCanonical			canonical(ValueSet)			object_source			targetCanonical			canonical(ValueSet)
+.... source		0..1	canonical(CodeSystem)	Source system where concepts to be mapped are defined		subject_source			source		0..1	canonical(CodeSystem)	Source system where concepts to be mapped are defined				
+.... target		0..1	canonical(CodeSystem)	Target system that the concepts are to be mapped to		object_source			target		0..1	canonical(CodeSystem)	Target system that the concepts are to be mapped to				
+.... element	I	1..*	BackboneElement	Mappings for a concept from the source set					element	I	1..*	BackboneElement	"Mappings for a concept from the source set
++ Rule: If noMap is present, target SHALL NOT be present
++ Rule: Either code or valueSet SHALL be present but not both."				
+				"+ Rule: If noMap is present, target SHALL NOT be present"													
+				+ Rule: Either code or valueSet SHALL be present but not both.													
+..... code		0..1	code	Identifies element being mapped		object_id			code		0..1	code	Identifies element being mapped				
+..... display		0..1	string	Display for the code		object_label 			display		0..1	string	Display for the code				
+..... valueSet		0..1	canonical(ValueSet)	Identifies elements being mapped					valueSet		0..1	canonical(ValueSet)	Identifies elements being mapped				
+..... noMap		0..1	boolean	No mapping to a target concept for this source concept					noMap		0..1	boolean	No mapping to a target concept for this source concept				
+..... target	I	0..*	BackboneElement	Concept in target system for element					target	I	0..*	BackboneElement	"Concept in target system for element
++ Rule: If the map is source-is-broader-than-target or not-related-to, there SHALL be some comments, unless the status is 'draft'"				
+				"+ Rule: If the map is source-is-broader-than-target or not-related-to, there SHALL be some comments"	ConceptMap.group.element.code	subject_id 							Code that identifies the target element				
+...... code		0..1	code	Code that identifies the target element	ConceptMap.group.element.display	subject_label			code		0..1	code	Display for the code				
+...... display		0..1	string	Display for the code					display		0..1	string	Identifies the set of target elements				
+...... valueSet		0..1	canonical(ValueSet)	Identifies the set of target elements					valueSet		0..1	canonical(ValueSet)	"related-to | equivalent | source-is-narrower-than-target | source-is-broader-than-target | not-related-to
+ConceptMapRelationship (Required)"				
+...... relationship	?!	1..1	code	related-to | equivalent | source-is-narrower-than-target | source-is-broader-than-target | not-related-to	ConceptMap.group.element.target.relationship				relationship	?!	1..1	code	Description of status/issues in mapping				
+				ConceptMapRelationship (Required)	owl:sameAs|owl:equivalentClass|owl:equivalentProperty|rdfs:subClassOf|rdfs:subPropertyOf|skos:relatedMatch|skos:closeMatch|skos:exactMatch|skos:narrowMatch|skos:broadMatch|oio:database_cross_reference|rdfs:seeAlso|RO:?	(SSSOM Mapping Predicate)							Other elements required for this mapping (from context)				
+					ConceptMap.group.element.target.comment	predicate_label	"(see predicate id tab ""description"")"						Reference to property mapping depends on				
+...... comment	I	0..1	string	Description of status/issues in mapping		comment 			comment	I	0..1	string	Value of the referenced property				
+...... dependsOn		0..*	BackboneElement	Other elements required for this mapping (from context)					dependsOn		0..*	BackboneElement					
+....... property		1..1	uri	Reference to property mapping depends on					property		1..1	uri					
+....... value[x]		1..1		Value of the referenced property					value[x]		1..1						
+........ valueCode			code						valueCode			code					
+........ valueCoding			Coding						valueCoding			Coding					
+........ valueString			string						valueString			string					
+........ valueInteger			integer						valueInteger			integer					
+........ valueBoolean			boolean						valueBoolean			boolean					
+........ valueDateTime			dateTime						valueDateTime			dateTime					
+........ valueDecimal			decimal						valueDecimal			decimal	Other concepts that this mapping also produces				
+........ valueUri			uri						valueUri			uri	"What to do when there is no mapping target for the source concept
++ Rule: If the mode is 'fixed', a code or valueSet must be provided
++ Rule: If the mode is 'other-map', a url must be provided"				
+........ valueId			id						valueId			id	"provided | fixed | other-map
+ConceptMapGroupUnmappedMode (Required)"				
+...... product		0..*	see dependsOn	Other concepts that this mapping also produces					product		0..*	see dependsOn	Fixed code when mode = fixed				
+					similar to: depends on	match_type							Display for the code				
+					Lexical|Logical|HumanCurated|Complex|Unspecified|SemanticSimilarity	(SSSOM match type enum)							Fixed code set when mode = fixed				
+.... unmapped	I	0..1	BackboneElement	What to do when there is no mapping target for the source concept					unmapped	I	0..1	BackboneElement	canonical reference to an additional ConceptMap2 to use for mapping if the source concept is unmapped				
+				"+ Rule: If the mode is 'fixed', a code or valueSet must be provided"													
+				"+ Rule: If the mode is 'other-map', a url must be provided"													
+..... mode		1..1	code	provided | fixed | other-map					mode		1..1	code					
+				ConceptMapGroupUnmappedMode (Required)													
+..... code		0..1	code	Fixed code when mode = fixed					code		0..1	code					
+..... display		0..1	string	Display for the code					display		0..1	string					
+..... valueSet		0..1	canonical(ValueSet)	Fixed code set when mode = fixed					valueSet		0..1	canonical(ValueSet)					
+..... url		0..1	canonical(ConceptMap2)	canonical reference to an additional ConceptMap2 to use for mapping if the source concept is unmapped					url		0..1	canonical(ConceptMap2)					
+																	
+SSSOM Extension elements																	
+https://build.fhir.org/extensibility.html																	
+http://build.fhir.org/conceptmap2-profiles.html#extensions																	
+																	
+Process metadata		Subject	Object	Map													
+Root Resource Extension		ConceptMap.group.element extension	ConceptMap.group.target extension	ConceptMap.group extension	ValueSet (?)												
+creator_label		subject_match_field	object_match_field	mapping_cardinality	mapping_set_source												
+creator_id		subject_preprocessing 	object_preprocessing	predicate_modifier	mapping set_license												
+author_id		subject_source_version	object_source_version	match_term_type	mapping_set_id												
+author_label 		subject_source_version	object_source_version 	match_string	mapping_set_description												
+reviewer_id				confidence 													
+reviewer_label				semantic_similarity_score 													
+mapping_provider				semantic_similarity_measure													
+mapping_tool 																	
+mapping_tool_version				mappings													
+see_also																	
+other																	
